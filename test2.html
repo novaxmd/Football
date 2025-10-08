@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SonyLiv HLS Stream</title>
+  <style>
+    body {
+      background-color: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: #fff;
+      font-family: Arial, sans-serif;
+    }
+    video {
+      width: 90%;
+      max-width: 800px;
+      border: 2px solid #444;
+      border-radius: 8px;
+      background-color: black;
+    }
+  </style>
+</head>
+<body>
+
+<video id="video" controls autoplay></video>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script>
+  const video = document.getElementById('video');
+  const url = "https://sonymtpristinenew.akamaized.net/hls/live/2119931/cricacc12309/ENG/std_lrh-800300010.m3u8?hdnea=exp=1758691769~acl=/*~id=56040323121916031715246858003685~hmac=049e99f9d92724bcd4e0180c8afe968005818cdc57cd19f2552a3883d98b82fb";
+
+  if (Hls.isSupported()) {
+    const hls = new Hls();
+    hls.loadSource(url);
+    hls.attachMedia(video);
+    hls.on(Hls.Events.MANIFEST_PARSED, function() {
+      video.play();
+    });
+  } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+    video.src = url;
+    video.addEventListener('loadedmetadata', function() {
+      video.play();
+    });
+  } else {
+    alert("HLS not supported in this browser.");
+  }
+</script>
+
+</body>
+</html>
